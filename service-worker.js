@@ -1,16 +1,18 @@
 // service-worker.js
 
-self.addEventListener('install', function(event) {
-  console.log('[ServiceWorker] Install');
+
+self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open('caffe-app-v1').then(function(cache) {
-            cache.addAll([
-  '/coffee-pwa/',
-  '/coffee-pwa/index.html',
-  '/coffee-pwa/icon-192.png',
-  '/coffee-pwa/icon-512.png',
-  '/coffee-pwa/manifest.json'
+    caches.open("v1").then(cache => {
+      return cache.addAll([
+        "/coffee-pwa/",
+        "/coffee-pwa/index.html",
+        "/coffee-pwa/icon-192.png",
+        "/coffee-pwa/icon-512.png",
+        "/coffee-pwa/manifest.json"
       ]);
+    }).catch(err => {
+      console.error("Errore durante l'aggiunta alla cache:", err);
     })
   );
 });
