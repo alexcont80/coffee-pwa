@@ -253,5 +253,14 @@
     }
   </script>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('firebase-messaging-sw.js')
+      .then(reg => console.log("✅ SW registrato:", reg.scope))
+      .catch(err => console.error("🚫 Errore nella registrazione del SW:", err));
+  }
+</script>
+
+  
 </body>
 </html>
