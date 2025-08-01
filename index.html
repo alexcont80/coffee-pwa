@@ -8,6 +8,48 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-messaging-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDdYX2aKspn_1FYfFOvq9DjOfzNi4IlLOI",
+    authDomain: "tuo-progetto.firebaseapp.com",
+    projectId: "tuo-progetto",
+    storageBucket: "tuo-progetto.appspot.com",
+    messagingSenderId: "916692141186",
+    appId: "1:916692141186:web:esempioAppId123",
+    vapidKey: "BKsfATXYKByaWySUsFXW1w17KPeCQhs5-os1aGgPOiCKFPEgwos3ZGT50Z1klOu_kNaKItLwGhOtvbjftzd3VfA"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const messaging = firebase.messaging();
+
+  // Richiede il permesso per le notifiche
+  messaging.requestPermission()
+    .then(() => messaging.getToken({ vapidKey: firebaseConfig.vapidKey }))
+    .then(token => {
+      console.log("✅ TOKEN ottenuto:", token);
+      // Puoi salvarlo in foglio Google, Firestore, etc.
+    })
+    .catch(err => {
+      console.error("🚫 Permesso rifiutato o errore nel token:", err);
+    });
+
+  // Notifiche mentre la pagina è attiva
+  messaging.onMessage(payload => {
+    console.log("📩 Messaggio ricevuto:", payload);
+    const { title, body } = payload.notification;
+    new Notification(title, {
+      body: body,
+      icon: 'icon-192.png'
+    });
+  });
+</script>
+
+    
     body {
       font-family: Arial, sans-serif;
       text-align: center;
