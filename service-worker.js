@@ -4,12 +4,12 @@ self.addEventListener('install', function(event) {
   console.log('[ServiceWorker] Install');
   event.waitUntil(
     caches.open('caffe-app-v1').then(function(cache) {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/manifest.json',
-        '/icon-192.png',
-        '/icon-512.png'
+            cache.addAll([
+  '/coffee-pwa/',
+  '/coffee-pwa/index.html',
+  '/coffee-pwa/icon-192.png',
+  '/coffee-pwa/icon-512.png',
+  '/coffee-pwa/manifest.json'
       ]);
     })
   );
