@@ -72,6 +72,33 @@
       margin-top: 20px;
     }
   </style>
+</head>
+<body>
+  <h2 id="dataOggi"></h2>
+  <h3 id="compleannoMsg" style="color: blue; display: none;"></h3>
+
+  <button id="estraiBtn">Estrai Nome</button>
+
+  <h3 id="nomeEstratto" style="display:none;"></h3>
+  <img id="immagineEstratta" src="" alt="Foto del genitore estratto">
+
+  <button id="confermaBtn">Conferma Caffè Pagato</button>
+  <button id="annullaBtn">Annulla e Estrai di Nuovo</button>
+
+  <div id="manualSelect">
+    <h3>Seleziona manualmente</h3>
+    <select id="manualDropdown"></select>
+    <button id="manualConfirmBtn" style="display:inline-block;">Conferma Selezione Manuale</button>
+  </div>
+
+  <h2>Conteggio Caffè Pagati</h2>
+  <table id="tabellaCaffe">
+    <tr>
+      <th>Nome</th>
+      <th>Caffè Pagati</th>
+    </tr>
+  </table>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
@@ -91,28 +118,33 @@
     const analytics = getAnalytics(app);
     const messaging = getMessaging(app);
 
-    Notification.requestPermission()
-      .then(permission => {
-        if (permission === "granted") {
-          console.log("Permesso notifiche ottenuto.");
-          getToken(messaging, {
-            vapidKey: "BKsfATXYKByaWySUsFXW1w17KPeCQhs5-os1aGgPOiCKFPEgwos3ZGT50Z1klOu_kNaKItLwGhOtvbjftzd3VfA"
-          }).then((currentToken) => {
-            if (currentToken) {
-              console.log("Token dispositivo:", currentToken);
-            } else {
-              console.warn("Nessun token disponibile.");
-            }
-          }).catch((err) => {
-            console.error("Errore durante il recupero del token:", err);
-          });
-        } else {
-          console.warn("Permesso notifiche negato.");
-        }
-      });
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        console.log("Permesso notifiche ottenuto.");
+        getToken(messaging, {
+          vapidKey: "BKsfATXYKByaWySUsFXW1w17KPeCQhs5-os1aGgPOiCKFPEgwos3ZGT50Z1klOu_kNaKItLwGhOtvbjftzd3VfA"
+        }).then((currentToken) => {
+          if (currentToken) {
+            console.log("Token dispositivo:", currentToken);
+          } else {
+            console.warn("Nessun token disponibile.");
+          }
+        }).catch((err) => {
+          console.error("Errore durante il recupero del token:", err);
+        });
+      } else {
+        console.warn("Permesso notifiche negato.");
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then(reg => console.log("✅ SW registrato:", reg.scope))
+        .catch(err => console.error("🚫 Errore nella registrazione del SW:", err));
+    }
   </script>
-</head>
-<body>
+</body>
+</html>
 
   <h2 id="dataOggi"></h2>
   <h3 id="compleannoMsg" style="color: blue; display: none;"></h3>
